@@ -1,10 +1,8 @@
-import uvicorn
 import prometheus_client as prom
-from fastapi import FastAPI, Response
 from modules.nut_client import NUTClient
 from modules.utils import parse_key, env
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
-app = FastAPI()
 metrics: dict[str, prom.Gauge] = {}
 nut = NUTClient(
     host=env.NUT_HOST,
@@ -35,13 +33,19 @@ def update_metrics():
             set_metric(name, value, key,{"ups": env.UPS_NAME})
 
 
-@app.get("/metrics")
-def get_metrics():
-    update_metrics()
-    return Response(
-        content=prom.generate_latest(),
-        media_type="text/plain"
-    )
+class MetricsHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/metrics":
+            update_metrics()
+
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(prom.generate_latest())
+        else:
+            self.send_response(404)
+            self.end_headers()
+            self.wfile.write(b"404 Not Found")
 
 
 if __name__ == "__main__":
@@ -50,5 +54,5 @@ if __name__ == "__main__":
     prom.REGISTRY.unregister(prom.PLATFORM_COLLECTOR)
     prom.REGISTRY.unregister(prom.GC_COLLECTOR)
 
-    update_metrics()
-    uvicorn.run(app, host="0.0.0.0", port=env.PROMETHEUS_PORT)
+    server = HTTPServer(("0.0.0.0", env.PROMETHEUS_PORT), MetricsHandler)
+    server.serve_forever()
