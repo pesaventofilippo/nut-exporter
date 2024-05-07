@@ -27,9 +27,11 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Tag the Docker image
-      run: docker tag nut-exporter:${{ github.sha }} ghcr.io/${{ github.repository }}:${{ github.sha }} \
-        && docker tag nut-exporter:${{ github.sha }} ghcr.io/${{ github.repository }}:latest
+      run: |
+        docker tag nut-exporter:${{ github.sha }} ghcr.io/${{ github.repository }}:${{ github.sha }}
+        docker tag nut-exporter:${{ github.sha }} ghcr.io/${{ github.repository }}:latest
 
     - name: Push the Docker image
-      run: docker push ghcr.io/${{ github.repository }}:${{ github.sha }} \
-        && docker push ghcr.io/${{ github.repository }}:latest
+      run: |
+        docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+        docker push ghcr.io/${{ github.repository }}:latest
