@@ -19,3 +19,28 @@ Every variable has a default value, so you can just run the exporter without set
 | `NUT_USERNAME`      | The username for the NUT server                        | `None`        |
 | `NUT_PASSWORD`      | The password for the NUT server                        | `None`        |
 | `NUT_TIMEOUT`       | The timeout for the NUT server connection (in seconds) | `5`           |
+
+## Docker
+The exporter is available as a Docker image on the [GitHub Container Registry](https://ghcr.io/pesaventofilippo/nut-exporter).
+
+To run the exporter using Docker, you can use the following command:
+```bash
+docker run -d -p 8000:8000 \
+    -e NUT_HOST=your-nut-server \
+    -e NUT_PORT=3493 \
+    ghcr.io/pesaventofilippo/nut-exporter
+```
+
+### docker-compose
+You can also use `docker-compose` to run the exporter.
+Here is an example `docker-compose.yml` file:
+```yaml
+services:
+  nut-exporter:
+    image: ghcr.io/pesaventofilippo/nut-exporter
+    ports:
+      - 8000:8000
+    environment:
+      NUT_HOST: your-nut-server
+      NUT_PORT: 3493
+```
