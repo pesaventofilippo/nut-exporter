@@ -1,8 +1,8 @@
 import uvicorn
-from utils import parse_key, env
-from nut_client import NUTClient
 import prometheus_client as prom
 from fastapi import FastAPI, Response
+from modules.nut_client import NUTClient
+from modules.utils import parse_key, env
 
 app = FastAPI()
 metrics: dict[str, prom.Gauge] = {}
