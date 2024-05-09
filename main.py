@@ -15,6 +15,12 @@ nut = NUTClient(
 
 
 def set_metric(metric_name: str, value: float, original_name: str, labels: dict[str, str]=None):
+    if env.DISABLE_STATIC:
+        if metric_name.endswith("_nominal") \
+            or metric_name.startswith("driver_") \
+            or metric_name in ["device_info", "ups_productid", "ups_vendorid"]:
+            return
+
     metric_name = f"{env.PROMETHEUS_PREFIX}_{metric_name}"
     if metric_name not in metrics:
         metrics[metric_name] = prom.Gauge(metric_name, f"NUT value {original_name}", labels.keys())

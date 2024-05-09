@@ -19,6 +19,7 @@ Every variable has a default value, so you can just run the exporter without set
 | `NUT_USERNAME`      | The username for the NUT server                        | `None`        |
 | `NUT_PASSWORD`      | The password for the NUT server                        | `None`        |
 | `NUT_TIMEOUT`       | The timeout for the NUT server connection (in seconds) | `5`           |
+| `DISABLE_STATIC`    | Disable static metric collection (e.g. `*_nominal`)    | `false`       |
 
 ## Docker
 The exporter is available as a Docker image on the [GitHub Container Registry](https://ghcr.io/pesaventofilippo/nut-exporter).

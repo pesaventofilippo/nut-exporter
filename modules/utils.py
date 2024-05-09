@@ -18,6 +18,7 @@ class EnvironmentConfig:
         self.NUT_USERNAME = os.getenv("NUT_USERNAME", None)
         self.NUT_PASSWORD = os.getenv("NUT_PASSWORD", None)
         self.NUT_TIMEOUT = int(os.getenv("NUT_TIMEOUT", "5"))
+        self.DISABLE_STATIC = os.getenv("DISABLE_STATIC", "false").lower() in ["true", "1", "yes", "y"]
 
 
 env = EnvironmentConfig()
