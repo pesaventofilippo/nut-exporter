@@ -2,7 +2,7 @@ from PyNUTClient.PyNUT import PyNUTClient
 
 
 class NUTClient:
-    ALL_FLAGS = ["BYPASS", "CAL", "CHRG", "DISCHRG", "FSD", "LB", "OB", "OL", "RB", "SD"]
+    ALL_FLAGS = ["BOOST", "BYPASS", "CAL", "CHRG", "DISCHRG", "FSD", "LB", "OB", "OL", "RB", "SD"]
 
     def __init__(self, host: str, port: int, ups_name: str, username: str=None, password: str=None, timeout: int=5):
         self.host = host
