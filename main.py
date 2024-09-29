@@ -53,6 +53,10 @@ class MetricsHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b"404 Not Found")
 
+    # Disable logging
+    def log_message(self, format, *args):
+        return
+
 
 if __name__ == "__main__":
     prom.disable_created_metrics()
